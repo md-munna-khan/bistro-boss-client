@@ -13,6 +13,7 @@ const Login = () => {
   const navigate=useNavigate()
   const location=useLocation()
   const from=location.state?.from?.pathname || '/'
+  console.log( 'state in the location',location.state)
 
    useEffect(()=>{
     loadCaptchaEnginge(6); 
@@ -95,12 +96,12 @@ setDisable(false)
                 <label className="label">
                 <LoadCanvasTemplate />
                 </label>
-                <input  onBlur={handleCaptcha} type="text"  name='captcha' placeholder="text" className="input input-bordered" required />
+                <input  onBlur={handleCaptcha} type="text"  name='captcha' placeholder="text" className="input input-bordered" />
         
               </div>
               <div className="form-control mt-6">
-            
-                <input disabled={disable} className="btn btn-primary" type="submit" value="login" />
+        
+                <input disabled={false} className="btn btn-primary" type="submit" value="login" />
               </div>
               <p>New Here? <Link to='/signup'> Go To Sign Up</Link> </p>
             </form>

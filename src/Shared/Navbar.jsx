@@ -2,11 +2,13 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 import { TiShoppingCart } from "react-icons/ti";
+import useCart from "../hooks/useCart";
 
 
 
 const NavBar = () => {
 const {user, logOut}=useContext(AuthContext)
+const [cart]=useCart()
 const handleLogOut=()=>{
     logOut()
     .then(()=>{})
@@ -21,7 +23,7 @@ const handleLogOut=()=>{
             <Link to='/'>
             <button className="btn">
             <TiShoppingCart />
-    <div className="badge badge-secondary">+99</div>
+    <div className="badge badge-secondary">+{cart.length}</div>
             </button>
             </Link>
         </li>
@@ -45,7 +47,7 @@ const handleLogOut=()=>{
 
     return (
         <>
-            <div className="flex mx-auto  container p-2 fixed z-10 text-white  bg bg-black opacity-40 justify-between">
+            <div className="flex mx-auto  container p-2 fixed z-10 text-white   bg-black opacity-80 justify-between">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
