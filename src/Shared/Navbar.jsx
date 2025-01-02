@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
+import { TiShoppingCart } from "react-icons/ti";
 
 
 
@@ -16,12 +17,20 @@ const handleLogOut=()=>{
         <li><Link to='/menu'>Our Menu</Link></li>
         <li><Link to='/order/salad'>Order Food</Link></li>
         <li><Link to='/secret'>secret</Link></li>
+        <li>
+            <Link to='/'>
+            <button className="btn">
+            <TiShoppingCart />
+    <div className="badge badge-secondary">+99</div>
+            </button>
+            </Link>
+        </li>
         {
         user?
          <>
-       <span>
-                        {user?.displayName }
-                    </span>
+       {/* <span>
+     {user?.displayName }
+    </span> */}
          <button onClick={handleLogOut} className="btn ">Log Out</button>
         </>: 
         <>
