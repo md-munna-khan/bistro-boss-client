@@ -20,7 +20,7 @@ const handleLogOut=()=>{
         <li><Link to='/order/salad'>Order Food</Link></li>
         <li><Link to='/secret'>secret</Link></li>
         <li>
-            <Link to='/'>
+            <Link to='/dashboard/carts'>
             <button className="btn">
             <TiShoppingCart />
     <div className="badge badge-secondary">+{cart.length}</div>
