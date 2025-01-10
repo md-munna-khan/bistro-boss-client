@@ -21,10 +21,11 @@ const handleLogOut=()=>{
         <li><Link to='/secret'>secret</Link></li>
         <li>
             <Link to='/dashboard/carts'>
-            <button className="btn">
-            <TiShoppingCart />
+            <p className="items-center inline-flex">
+          
     <div className="badge badge-secondary">+{cart.length}</div>
-            </button>
+    <TiShoppingCart className="text-2xl" />
+            </p>
             </Link>
         </li>
         {
@@ -33,7 +34,7 @@ const handleLogOut=()=>{
        {/* <span>
      {user?.displayName }
     </span> */}
-         <button onClick={handleLogOut} className="btn ">Log Out</button>
+         <p onClick={handleLogOut} className=" items-center">Log Out</p>
         </>: 
         <>
             <li><Link to='/login'>Login</Link></li>

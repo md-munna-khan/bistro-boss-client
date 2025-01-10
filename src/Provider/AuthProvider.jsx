@@ -1,12 +1,15 @@
 import { createContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { app } from "../firebase/firebase.init";
+import useAxiosPublic from "../hooks/useAxiosPublic";
  export const AuthContext =createContext(null)
  const auth = getAuth(app);
 const AuthProvider = ({children}) => {
 const [user,setUser]=useState(null)
 const [loading,setLoading]=useState(true)
-
+const provider=new GoogleAuthProvider()
+const axiosPublic= useAxiosPublic()
+// create user
 const createUser=(email,password)=>{
     setLoading(true)
     return createUserWithEmailAndPassword(auth,email,password)
@@ -14,6 +17,11 @@ const createUser=(email,password)=>{
 const signIn=(email,password)=>{
     setLoading(true)
     return signInWithEmailAndPassword(auth,email,password)
+}
+//social login
+const socialSignIn=()=>{
+setLoading(true)
+return signInWithPopup(auth,provider)
 }
 const logOut=()=>{
     setLoading(true)
@@ -27,13 +35,26 @@ const updateUserProfile=(name,photo)=>{
 useEffect(()=>{
     const unSubscribe= onAuthStateChanged(auth,currentUser=>{
         setUser(currentUser)
-        console.log('current user',currentUser)
+     if(currentUser){
+//  get token and store the client
+const userInfo= {email: currentUser.email}
+axiosPublic.post('/jwt',userInfo)
+.then(res=>{
+    if(res.data.token){
+        localStorage.setItem('access-token', res.data.token)
+    }
+})
+     } 
+     else{
+// todo remove the token
+localStorage.removeItem('access-token')
+     }
         setLoading(false)
     })
 return()=>{
     return unSubscribe()
 }
-},[])
+},[axiosPublic])
 
 
     const authInfo ={
@@ -42,7 +63,8 @@ return()=>{
         signIn,
         createUser,
         logOut,
-      updateUserProfile
+      updateUserProfile,
+      socialSignIn
     }
     return (
         <AuthContext.Provider value={authInfo}>

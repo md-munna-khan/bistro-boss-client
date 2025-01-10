@@ -4,9 +4,13 @@ import { Helmet } from 'react-helmet';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../Provider/AuthProvider';
 import { Link, useNavigate } from 'react-router-dom';
+import useAxiosPublic from '../hooks/useAxiosPublic';
+import Swal from 'sweetalert2';
+import SocialLogin from '../Shared/SocialLogin';
 
 const SignUp = () => {
     const {createUser, updateUserProfile}=useContext(AuthContext)
+    const axiosPublic=useAxiosPublic()
     const navigate=useNavigate()
     const {
         register,
@@ -23,10 +27,36 @@ const SignUp = () => {
             console.log(user)
             updateUserProfile(data.name,data.photo)
             .then(()=>{
-                console.log('user profile info updated')
-                reset()
+              const userInfo={
+                name:data.name,
+               email: data.email
+              }
+
+              axiosPublic.post('/users',userInfo)
+              .then(res=>
+                {
+                  if(res.data.insertedId)
+                    console.log('user added in db')
+                    reset()
+                  Swal.fire({
+                    title: 'success',
+                    text: 'user created successfully ',
+                    icon: 'success',
+                    confirmButtonText: 'ok'
+                  })
+                  navigate('/')
+                }
+              )
+            
+              
+               
+           
             })
-            navigate('/')
+           
+
+           
+            
+            
         })
       }
       
@@ -98,6 +128,7 @@ const SignUp = () => {
                
                 <input className="btn btn-primary" type="submit" value="Sign Up" />
               </div>
+              <SocialLogin></SocialLogin>
               <p>Already Registerred <Link to='/login'> Go login</Link></p>
             </form>
           </div>
