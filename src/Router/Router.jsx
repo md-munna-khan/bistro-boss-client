@@ -19,6 +19,8 @@ import ManageItems from "../pages/Dashboard/ManageItems/ManageItems";
 import UpdateItem from "../pages/Dashboard/UpdateItem/UpdateItem";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentHistory from "../pages/Dashboard/paymentHistory/PaymentHistory";
+import UserHome from "../pages/Dashboard/UserHome/UserHome";
+import AdminHome from "../pages/Dashboard/adminHome/AdminHome";
 
  export const router = createBrowserRouter([
     {
@@ -58,6 +60,10 @@ import PaymentHistory from "../pages/Dashboard/paymentHistory/PaymentHistory";
       children:[
         // normal users route
         {
+          path:'user-home',
+          element:<UserHome></UserHome>
+        },
+        {
           path:'carts',
           element:<Carts></Carts>
         },
@@ -71,6 +77,10 @@ import PaymentHistory from "../pages/Dashboard/paymentHistory/PaymentHistory";
         },
         // admin only routes
         {
+            path:'admin-home',
+            element:<AdminRoute><AdminHome></AdminHome></AdminRoute>
+        },
+        {
             path:'add-items',
             element:<AdminRoute><AddItems></AddItems></AdminRoute>
         },
@@ -81,7 +91,7 @@ import PaymentHistory from "../pages/Dashboard/paymentHistory/PaymentHistory";
         {
             path:'update-item/:id',
             element:<AdminRoute><UpdateItem></UpdateItem></AdminRoute>,
-            loader:({params})=> fetch(`http://localhost:5000/menu/${params.id}`)
+            loader:({params})=> fetch(`https://bisrto-boss-server.vercel.app/menu/${params.id}`)
         },
         {
           path:'users',

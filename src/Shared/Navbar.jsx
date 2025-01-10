@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 import { TiShoppingCart } from "react-icons/ti";
 import useCart from "../hooks/useCart";
+import useAdmin from "../hooks/useAdmin";
 
 
 
 const NavBar = () => {
 const {user, logOut}=useContext(AuthContext)
 const [cart]=useCart()
+const [isAdmin]= useAdmin()
 const handleLogOut=()=>{
     logOut()
     .then(()=>{})
@@ -19,6 +21,12 @@ const handleLogOut=()=>{
         <li><Link to='/menu'>Our Menu</Link></li>
         <li><Link to='/order/salad'>Order Food</Link></li>
         <li><Link to='/secret'>secret</Link></li>
+        {
+            user && isAdmin &&   <li><Link to='/dashboard/admin-home'>Admin Home</Link></li>
+        }
+        {
+            user && isAdmin &&   <li><Link to='/dashboard/user-home'>User Home</Link></li>
+        }
         <li>
             <Link to='/dashboard/carts'>
             <p className="items-center inline-flex">
@@ -34,7 +42,7 @@ const handleLogOut=()=>{
        {/* <span>
      {user?.displayName }
     </span> */}
-         <p onClick={handleLogOut} className=" items-center">Log Out</p>
+         <p onClick={handleLogOut} className="items-center inline-flex">Log Out</p>
         </>: 
         <>
             <li><Link to='/login'>Login</Link></li>
@@ -48,8 +56,8 @@ const handleLogOut=()=>{
 
     return (
         <>
-            <div className="flex mx-auto  container p-2 fixed z-10 text-white   bg-black opacity-80 justify-between">
-                <div className="navbar-start">
+            <div className="flex mx-auto  container p-2 fixed z-10 text-white  top-0 bg-black opacity-80 justify-between">
+                <div className="">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
